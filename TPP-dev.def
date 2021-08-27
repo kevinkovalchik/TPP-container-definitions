@@ -1,0 +1,48 @@
+Bootstrap: library
+From: ubuntu:18.04
+Fingerprints: 1137e72e6816bfc06d9caa0d15f3f4f4f14b03b2
+Stage: devel
+
+%post
+	apt update
+	apt --yes upgrade
+	apt --yes install software-properties-common
+	add-apt-repository universe
+	apt update
+	apt --yes upgrade
+	apt --yes install subversion
+	apt --yes install build-essential
+	apt --yes install perl
+	apt --yes install zlib1g-dev
+	apt --yes install libghc-bzlib-dev
+	apt --yes install gnuplot
+	apt --yes install unzip
+	apt --yes install expat
+	apt --yes install libexpat1-dev
+	apt --yes install libgd-dev
+	apt clean all
+	
+	mkdir /tpp
+	cd /tpp
+	svn checkout http://svn.code.sf.net/p/sashimi/code/trunk/trans_proteomic_pipeline
+	cd /tpp/trans_proteomic_pipeline
+	make all
+
+# copy TPP binaries to final image
+
+Bootstrap: library
+From: ubuntu:18.04
+Fingerprints: 1137e72e6816bfc06d9caa0d15f3f4f4f14b03b2
+Stage: final
+
+%files from devel
+	/tpp/trans_proteomic_pipeline/build/gnu-x86_64/bin/* /usr/bin
+
+%post
+	apt update
+	apt --yes upgrade
+	apt --yes install software-properties-common
+	add-apt-repository universe
+	apt update
+	apt --yes upgrade
+	apt --yes install perl gnuplot
