@@ -1,5 +1,5 @@
 # TPP-container-definitions
-Some (hopefully) useful definition files for builing the Trans Proteomic Pipeline inside a container.
+Some (hopefully) useful definition files for builing the Trans Proteomic Pipeline inside a container. So far I am only working with Singularity, but the files should be easily adapted to Docker.
 
 I don't always use the Trans Proteomic Pipeline as an end-to-end solution, but I do often want to use the tools that are part of it. This can be sometimes be difficult because I don't always want to compile it on my own system. So I decided to compile the code in a Singularity container and move the final binaries to a second, slimmer container without all the build dependencies.
 
