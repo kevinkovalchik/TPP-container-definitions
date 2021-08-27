@@ -6,6 +6,6 @@ I don't always use the Trans Proteomic Pipeline as an end-to-end solution, but I
 ## Building a container with the TPP binaries:
 
 1. If you don't already have it on your system, install Singularity: https://sylabs.io/guides/3.8/user-guide/quick_start.html
-2. Download the definition file above
+2. Download the definition file above (e.g. tpp_v5.2.0-r7909.def)
 3. Build a container like this: `singularity build ./tpp ./tpp.def` where ./tpp is the new container and ./tpp.def is the downloaded definition file.
      - It'll take a while to finish...
