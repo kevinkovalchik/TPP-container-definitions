@@ -35,8 +35,11 @@ From: ubuntu:18.04
 Fingerprints: 1137e72e6816bfc06d9caa0d15f3f4f4f14b03b2
 Stage: final
 
+%environment
+	export PATH=$PATH:/tpp
+	
 %files from devel
-	/tpp/trans_proteomic_pipeline/build/gnu-x86_64/bin/* /usr/bin
+	/tpp/trans_proteomic_pipeline/build/gnu-x86_64/bin /tpp
 
 %post
 	apt update
