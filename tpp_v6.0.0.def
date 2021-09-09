@@ -1,0 +1,68 @@
+Bootstrap: library
+From: ubuntu:18.04
+Fingerprints: 1137e72e6816bfc06d9caa0d15f3f4f4f14b03b2
+Stage: devel
+
+%post
+	apt update
+	apt --yes upgrade
+	apt --yes install software-properties-common
+	add-apt-repository universe
+	apt update
+	apt --yes upgrade
+	apt --yes install subversion
+	apt --yes install build-essential
+	apt --yes install perl
+	apt --yes install zlib1g-dev
+	apt --yes install libghc-bzlib-dev
+	apt --yes install gnuplot
+	apt --yes install unzip
+	apt --yes install expat
+	apt --yes install libexpat1-dev
+	apt --yes install libgd-dev
+	apt clean all
+	
+	mkdir /usr/local/tpp
+	mkdir /data
+	mkdir /tpp
+	cd /tpp
+	svn checkout http://svn.code.sf.net/p/sashimi/code/tags/release_6-0-0
+	cd /tpp/release_6-0-0
+
+	echo "INSTALL_DIR = /usr/local/tpp" > site.mk
+	echo "TPP_DATADIR = /data" >> site.mk
+	echo "TPP_BASEURL = /tpp" >> site.mk
+	echo "TPP_DATAURL = /tpp/data" >> site.mk
+	echo "TPP_PORT = 10401" >> site.mk
+
+	make all
+	make install
+
+# copy TPP files to final image
+
+Bootstrap: library
+From: ubuntu:18.04
+Fingerprints: 1137e72e6816bfc06d9caa0d15f3f4f4f14b03b2
+Stage: final
+
+%environment
+	export PATH=$PATH:/usr/local/tpp/bin
+
+%files from devel
+	/usr/local/tpp /usr/local/tpp
+	/data /data
+
+%post
+	apt update
+	apt --yes upgrade
+	apt --yes install software-properties-common
+	add-apt-repository universe
+	apt update
+	apt --yes upgrade
+	apt --yes install perl gnuplot
+
+	export PERL_MM_USE_DEFAULT=1
+	yes | sudo cpan install CGI
+	sudo cpan install XML::Parser
+	sudo cpan install FindBin::libs
+	yes | sudo cpan install JSON
