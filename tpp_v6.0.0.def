@@ -47,6 +47,7 @@ Stage: final
 
 %environment
 	export PATH=$PATH:/usr/local/tpp/bin
+	export PATH=$PATH:/usr/local/tpp/cgi-bin
 
 %files from devel
 	/usr/local/tpp /usr/local/tpp
@@ -59,10 +60,11 @@ Stage: final
 	add-apt-repository universe
 	apt update
 	apt --yes upgrade
-	apt --yes install perl gnuplot
+	apt --yes install make gcc expat libexpat1-dev perl gnuplot zlib1g-dev libghc-bzlib-dev
 
 	export PERL_MM_USE_DEFAULT=1
-	yes | sudo cpan install CGI
-	sudo cpan install XML::Parser
-	sudo cpan install FindBin::libs
-	yes | sudo cpan install JSON
+	yes | cpan install File::Copy::Recursive::Reduced
+	yes | cpan install CGI
+	yes | cpan install XML::Parser
+	yes | cpan install FindBin::libs
+	yes | cpan install JSON
